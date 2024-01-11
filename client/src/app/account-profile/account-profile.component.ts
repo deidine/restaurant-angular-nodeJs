@@ -27,7 +27,7 @@ export class AccountProfileComponent implements OnInit {
   region: any;
   primaryPhone: any;
   secondaryPhone: any;
-
+decoded:any
   add_new: boolean = false;
   orders: any;
 
@@ -48,12 +48,12 @@ export class AccountProfileComponent implements OnInit {
     //fetch user token and decode
     let customerToken = this.custAuthService.getToken();
     console.log('Customer token', customerToken);
-    var decoded = jwt_decode(customerToken);
-    console.log('Decoded token', decoded.id_customer);
+     this.decoded = jwt_decode(customerToken);
+    console.log('Decoded token', this.decoded.id_customer);
 
     //fetch all customer details
     this.customerService
-      .getCustomerById(decoded.id_customer)
+      .getCustomerById(this.decoded.id_customer)
       .subscribe((data) => {
         console.log('customer details', data);
         this.customerProfile = data;
@@ -69,7 +69,7 @@ export class AccountProfileComponent implements OnInit {
        
 
         //fetch orders by customer id
-        this.orderService.getLatestOrderById(decoded.id_customer)
+        this.orderService.getLatestOrderById(this.decoded.id_customer)
         .subscribe(data =>{
           this.orders = data
           console.log("These latest orders", this.orders)

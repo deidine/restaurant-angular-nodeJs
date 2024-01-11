@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 export class AccountDetailsComponent implements OnInit {
   pageTitle = 'Customer account overview | Maungano Food Express';
   customerProfileForm: FormGroup;
-
+decoded:any
   userData: any;
   customerProfile: any;
   fname: any;
@@ -57,12 +57,12 @@ export class AccountDetailsComponent implements OnInit {
 
     //fetch user token and decode
     let customerToken = this.custAuthService.getToken();
-    var decoded = jwtDecode(customerToken);
+     this.decoded = jwtDecode(customerToken);
     
 
     //fetch all customer details
     this.customerService
-      .getCustomerById(decoded.id_customer)
+      .getCustomerById(this.decoded.id_customer)
       .subscribe((data) => {
         console.log('customer details', data);
         this.customerProfile = data;
@@ -123,7 +123,7 @@ export class AccountDetailsComponent implements OnInit {
     var dob = this.customerProfileForm.value.dob
 
     const customer = {
-      id_customer:decoded.id_customer,
+      id_customer:this.decoded.id_customer,
       fname: fname,
       lname:lname,
       email:email,

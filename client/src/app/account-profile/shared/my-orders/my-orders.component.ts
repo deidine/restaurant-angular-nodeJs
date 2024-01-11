@@ -15,6 +15,7 @@ export class MyOrdersComponent implements OnInit {
   ordersOpen: any;
   ordersClosed: any;
   p: number = 1;
+  decoded:any
   count: any
 
   constructor(
@@ -28,8 +29,8 @@ export class MyOrdersComponent implements OnInit {
     //fetch user token and decode
     let customerToken = this.custAuthService.getToken();
     console.log('Customer token', customerToken);
-    var decoded = jwt_decode(customerToken);
-    console.log('Decoded token', decoded.id_customer);
+     this.decoded = jwt_decode(customerToken);
+    console.log('Decoded token', this.decoded.id_customer);
 
     //fetch orders by customer id
     this.spinner.show();

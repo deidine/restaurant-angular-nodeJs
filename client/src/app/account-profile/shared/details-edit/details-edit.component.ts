@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { CustomerAuthenticationService } from '../../../_auth/customer-authentication.service';
 import { CustomerService } from '../../../_services/customer.service';
 import { OrderService } from 'src/app/_services/order.service';
-import jwt_decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 
 @Component({
   selector: 'app-details-edit',
@@ -22,7 +22,7 @@ export class DetailsEditComponent implements OnInit {
   primaryPhone: any;
   secondaryPhone: any;
   orders: any;
-
+  decoded:any;
   constructor(private formBuilder: FormBuilder,
     public custAuthService: CustomerAuthenticationService,
     private orderService: OrderService,
@@ -41,12 +41,12 @@ export class DetailsEditComponent implements OnInit {
     //fetch user token and decode
     let customerToken = this.custAuthService.getToken();
     console.log('Customer token', customerToken);
-    var decoded = jwt_decode(customerToken);
-    console.log('Decoded token', decoded.id_customer);
+     this.decoded = jwtDecode(customerToken);
+    console.log('Decoded token', this.decoded.id_customer);
 
      //fetch all customer details
      this.customerService
-     .getCustomerById(decoded.id_customer)
+     .getCustomerById(this.decoded.id_customer)
      .subscribe((data) => {
        console.log('customer details', data);
        this.customerProfile = data;
@@ -68,7 +68,7 @@ export class DetailsEditComponent implements OnInit {
        });
 
        //fetch orders by customer id
-       this.orderService.getLatestOrderById(decoded.id_customer)
+       this.orderService.getLatestOrderById(this.decoded.id_customer)
        .subscribe(data =>{
          this.orders = data
          console.log("These latest orders", this.orders)

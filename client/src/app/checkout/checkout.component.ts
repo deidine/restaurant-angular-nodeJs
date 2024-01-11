@@ -20,7 +20,7 @@ import { CustomersModelServer } from '../_models/customers';
 })
 export class CheckoutComponent implements OnInit {
 pageTitle = "Checkout | Maungano Food Express"
-
+decoded:any
   checkoutForm: FormGroup
 
   cartTotal: number;
@@ -82,12 +82,12 @@ pageTitle = "Checkout | Maungano Food Express"
     //fetch user token and decode
     let customerToken = this.custAuthService.getToken();
     console.log('Customer token', customerToken);
-    let decoded = jwt_decode(customerToken);
-    console.log('Decoded token', decoded);
+      this.decoded = jwt_decode(customerToken);
+    console.log('Decoded token', this.decoded);
   
     //fetch all customer details
    this.customerService
-   .getCustomerById(decoded.id_customer)
+   .getCustomerById(this.decoded.id_customer)
    .subscribe((data) => {
      console.log('customer details', data);
      this.customer = data;
@@ -139,8 +139,8 @@ pageTitle = "Checkout | Maungano Food Express"
 //fetch user token and decode
 let customerToken = this.custAuthService.getToken();
 console.log('Customer token', customerToken);
-let decoded = jwt_decode(customerToken);
-console.log('Decoded token', decoded.id_customer);
+this.decoded = jwt_decode(customerToken);
+console.log('Decoded token', this.decoded.id_customer);
      
 this.spinner.show().then(p =>{
  // console.log("spinner", p)
@@ -153,7 +153,7 @@ this.spinner.show().then(p =>{
 switch(payment_value) {
   case 1:
     console.log("This is Cash")
-    this.cartService.CheckoutFromCart( decoded.id_customer,payment_value, total);
+    this.cartService.CheckoutFromCart( this.decoded.id_customer,payment_value, total);
     break;
   case 2:
     console.log("This is Card")

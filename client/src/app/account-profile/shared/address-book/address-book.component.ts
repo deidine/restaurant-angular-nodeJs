@@ -10,7 +10,7 @@ import jwt_decode from 'jwt-decode';
   styleUrls: ['./address-book.component.css']
 })
 export class AddressBookComponent implements OnInit {
-
+decoded:any
   addressForm: FormGroup;
   customerProfile: any;
   fname: any;
@@ -46,12 +46,12 @@ export class AddressBookComponent implements OnInit {
      //fetch user token and decode
      let customerToken = this.custAuthService.getToken();
      console.log('Customer token', customerToken);
-     var decoded = jwt_decode(customerToken);
-     console.log('Decoded token', decoded.id_customer);
+      this.decoded = jwt_decode(customerToken);
+     console.log('Decoded token', this.decoded.id_customer);
 
     //fetch all customer details
     this.customerService
-      .getCustomerById(decoded.id_customer)
+      .getCustomerById(this.decoded.id_customer)
       .subscribe((data) => {
         console.log('customer details', data);
         this.customerProfile = data;

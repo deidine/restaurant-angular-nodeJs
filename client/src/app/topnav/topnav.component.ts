@@ -21,7 +21,7 @@ export class TopnavComponent implements OnInit {
   customerData: any;
   cart: any;
   _message: string
-
+  decoded:any
   store: any = [];
   email: any
   phone:any
@@ -61,9 +61,9 @@ export class TopnavComponent implements OnInit {
    
     
     let customerToken = this.custAuthService.getToken()
-    var decoded = jwt_decode(customerToken);
+     this.decoded = jwt_decode(customerToken);
     //console.log("Decoded token", decoded);
-    this.fname = decoded.fname
+    this.fname = this.decoded.fname
 
     //fetch currencies
     this.currencyService.getAllCurrencies()

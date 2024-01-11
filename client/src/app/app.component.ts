@@ -12,7 +12,7 @@ import jwt_decode from 'jwt-decode';
 export class AppComponent {
   
   pageTitle = 'Maungano Food Express';
-
+decoded:any
   sideBarOpen = true
 
   _route_url = "/home"
@@ -27,10 +27,10 @@ export class AppComponent {
     //fetch user token and decode
     let Token = this.auth.getToken();
     //console.log('User token', Token);
-    var decoded = jwt_decode(Token);
-    console.log("Decoded", decoded)
-    this.fname = decoded.fname
-    this.lname = decoded.lname
+     this.decoded = jwt_decode(Token);
+    console.log("Decoded", this.decoded)
+    this.fname = this.decoded.fname
+    this.lname = this.decoded.lname
 
     
 
